@@ -1,11 +1,10 @@
 <template>
   <div class="main" id="http-error">
-    <div class="message">This forum is Private</div>
-    <h5 v-if="!loggedIn">You must have an account and be logged in to view this forum.</h5>
-    <h5 v-if="loggedIn">You do not have the proper permissions to view this portion of the forum.</h5>
+    <div class="message">Not available in the archive</div>
+    <h5>This is a read-only archive of public BitcoinTalk posts. Accounts, messages, watchlists and settings aren&rsquo;t part of the archive &mdash; they live on bitcointalk.org.</h5>
     <br /><br />
-    <a class="button" v-if="!loggedIn" @click.prevent="showLogin = true">Login</a>
-    <router-link v-if="loggedIn" class="button" to="/">Home</router-link>
+    <a class="button" href="https://bitcointalk.org" target="_blank" rel="noopener">Go to bitcointalk.org &#8599;</a>
+    <router-link class="button" to="/">Home</router-link>
   </div>
   <login-modal :show="showLogin" @close="showLogin = false"></login-modal>
 </template>

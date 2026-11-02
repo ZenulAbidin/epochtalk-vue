@@ -3,20 +3,25 @@ import NotificationStore from '@/composables/stores/notifications'
 import { clearUser, AuthStore } from '@/composables/stores/auth'
 import { provide, inject, reactive } from 'vue'
 
-const socketcluster = require('socketcluster-client')
-
 // Public channel idenitfier and general options
 let options = { waitForAuth: true }
 let userChannel
 let publicChannel
 let session = reactive({ user: {} })
 
-// Initiate the connection to the websocket server
-const socket = socketcluster.connect({
-  hostname: 'localhost',
-  port: 23958,
-  autoReconnect: true
-})
+// Read-only archive: no realtime server. Stub the socket so the client never
+// opens a websocket (prevents endless reconnect attempts to the viewer's own
+// localhost:23958) while keeping the API the rest of the app expects.
+const _noop = () => {}
+const _fakeChannel = { watch: _noop, unwatch: _noop }
+const socket = {
+  state: 'open',
+  on: _noop, emit: _noop,
+  subscribe: () => _fakeChannel, unsubscribe: _noop, subscriptions: () => [],
+  watch: _noop, unwatch: _noop, watchers: () => [],
+  authenticate: _noop, deauthenticate: _noop,
+  getAuthToken: () => ({ sessionId: null })
+}
 
 const WEBSOCKET_KEY = 'websocket'
 const publicChannelKey = JSON.stringify({ type: 'public' })

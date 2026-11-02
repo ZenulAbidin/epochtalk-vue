@@ -83,10 +83,10 @@
           <!-- Login Section -->
           <ul class="signed-out" v-if="!loggedIn">
             <li>
-              <a href="" @click.prevent="showRegister = true">REGISTER</a>
+              <a href="https://bitcointalk.org/index.php?action=register" target="_blank" rel="noopener">REGISTER ON BITCOINTALK ↗</a>
             </li>
             <li>
-              <a href="" id="login-link" @click.prevent="showLogin = true">LOGIN</a>
+              <a href="https://bitcointalk.org/index.php?action=login" target="_blank" rel="noopener" id="login-link">LOGIN ON BITCOINTALK ↗</a>
             </li>
           </ul>
 

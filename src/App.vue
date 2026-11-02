@@ -10,6 +10,13 @@
                 <router-view />
               </div>
             </main>
+            <footer id="ts-footer">
+              <div class="ts-footer-inner">
+                <strong>TalkSearch Archive</strong> &mdash; unofficial, read-only archive of public BitcoinTalk posts.
+                Not affiliated with bitcointalk.org. To register, log in, post, reply or message, use
+                <a href="https://bitcointalk.org" target="_blank" rel="noopener">bitcointalk.org</a>.
+              </div>
+            </footer>
           </div>
         </ProvideBreadcrumbs>
       </ProvideWebsocket>
@@ -40,6 +47,17 @@ export default {
 </script>
 
 <style lang="scss">
+#ts-footer {
+  margin-top: 2.5rem;
+  padding: 1.25rem 1rem 2rem;
+  border-top: 1px solid rgba(128,128,128,0.25);
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.5;
+  opacity: 0.85;
+  a { color: #5aa0ff; }
+  .ts-footer-inner { max-width: 70rem; margin: 0 auto; }
+}
 /*-- View Layout Wrappers --*/
 #public-content {
   margin-top: $header-bottom-margin;

@@ -138,10 +138,11 @@
             <router-link :to="{ path: '/profile/' + post.user.username.toLowerCase() }">
               <div class="original-poster" v-if="post.user.original_poster">OP</div>
               <div v-if="post.user.activity > -1" :title="('Activity: ' + post.user.activity)" class="user-activity">Act: <span class="user-activity-value">{{post.user.activity}}</span></div>
+              <div v-if="post.user.merit > 0" :title="('Merit: ' + post.user.merit)" class="user-activity">Merit: <span class="user-activity-value">{{post.user.merit}}</span></div>
             </router-link>
           </router-link>
 
-          <div class="user-trust" v-if="loggedIn && postData.data.thread.trust_visible">
+          <div class="user-trust" v-if="post.user.stats && (post.user.stats.pos || post.user.stats.neg)">
             <trust-display :user="post.user" />
           </div>
 
@@ -424,7 +425,7 @@ import decode from '@/composables/filters/decode'
 import dayjs from 'dayjs'
 import { userRoleHighlight } from '@/composables/utils/userUtils'
 import truncate from '@/composables/filters/truncate'
-import { inject, reactive, watch, toRefs, nextTick } from 'vue'
+import { inject, reactive, watch, toRefs } from 'vue'
 import { postsApi, pollsApi, threadsApi, usersApi, watchlistApi } from '@/api'
 import { AuthStore } from '@/composables/stores/auth'
 import { PreferencesStore, localStoragePrefs } from '@/composables/stores/prefs'
@@ -544,13 +545,7 @@ export default {
       else if (priorityBypass) return v.permissionUtils.getPriority() < userPriority
       else return false
     }
-    const canPost = () => {
-      if (v.bannedFromBoard || !v.postData.data?.write_access || !v.permissionUtils.hasPermission('posts.create.allow')) return false
-      if (v.postData.data.thread.locked) {
-        return v.permissionUtils.hasPermission('posts.create.bypass.locked.admin') || (v.permissionUtils.hasPermission('posts.create.bypass.locked.mod') && v.permissionUtils.moderatesBoard(v.postData.data.board.id))
-      }
-      return true
-    }
+    const canPost = () => !v.postData.data?.thread?.locked  /* archive: draft-only, copy to bitcointalk */
     const canSave = () => {
       var text = v.posting.post.body_html
       const imgSrcRegex = /<img[^>]+src="((http:\/\/|https:\/\/|\/)[^">]+)"/g
@@ -959,18 +954,15 @@ export default {
       })
     }
 
-    const createPost = post => postsApi.create(post)
-    .then(p => {
-      const limit = localStoragePrefs().data.posts_per_page
-      if (v.postData.data.posts.length === limit) {
-        const postCount = v.postData.data.thread.post_count + 1
-        const lastPage = Math.ceil(postCount / limit)
-        Object.assign(v.postData.data.thread.post_count, postCount)
-        Object.assign(v.postData.data.page, lastPage)
-        nextTick(() => $router.push({ path: $route.path, query: { ...$route.query, page: lastPage }, hash: `#${p.id}` }))
-      }
-      else $router.push({ path: $route.path, query: $route.query, hash: `#${p.id}` })
-    })
+    // Archive is read-only: never post to a server. Copy the BBCode and open the real reply box on bitcointalk.org.
+    const createPost = post => {
+      const bb = (post && post.body) || ''
+      const url = 'https://bitcointalk.org/index.php?action=post;topic=' + (post && post.thread_id)
+      const win = window.open(url, '_blank', 'noopener')  // opened within the click gesture
+      const finish = () => { $alertStore.success('Reply copied \u2014 paste it into the reply box on bitcointalk.org' + (win ? '' : ' (open ' + url + ')')) }
+      try { navigator.clipboard.writeText(bb).then(finish).catch(finish) } catch (e) { finish() }
+      return Promise.resolve({ drafted: true })
+    }
 
     const updatePost = post => postsApi.update(post)
     .then(processPosts)

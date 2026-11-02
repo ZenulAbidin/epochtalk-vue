@@ -234,7 +234,7 @@ const routes = [
     name: 'Profile',
     component: Profile,
     props: true,
-    meta: { requiresAuth: true, bodyClass: 'profile' },
+    meta: { requiresAuth: false, bodyClass: 'profile' },
     children: [{
       path: '',
       name: 'Profile.UserPosts',
@@ -250,14 +250,14 @@ const routes = [
       user: usersApi.find(route.params.username).then(u => u),
       username: route.params.username
     }),
-    meta: { requiresAuth: true, bodyClass: 'user-posts' }
+    meta: { requiresAuth: false, bodyClass: 'user-posts' }
   },
   {
     path: '/profile/:username/trust',
     name: 'Trust',
     component: Trust,
     props: true,
-    meta: { requiresAuth: true, bodyClass: 'trust' }
+    meta: { requiresAuth: false, bodyClass: 'trust' }
   },
   {
     path: '/settings',
@@ -305,7 +305,7 @@ const routes = [
     path: '/search/users',
     name: 'MemberSearch',
     component: MemberSearch,
-    meta: { requiresAuth: true, bodyClass: 'member-search' }
+    meta: { requiresAuth: false, bodyClass: 'member-search' }
   },
   {
     path: '/search/posts',
@@ -360,15 +360,7 @@ router.beforeEach(to => {
 
   // Redirect to login page if route has meta.requiresAuth set
   if (to.meta.requiresAuth && !localStorageAuth().data.token) {
-    router.push({
-      name: 'Login',
-      params: {
-        fullPath: to.fullPath || '/',
-        redirectParams: JSON.stringify(to.params), // Cannot pass object, gets converted to string
-        redirectQuery: JSON.stringify(to.query),
-      },
-      query: { redirect: to.fullPath }
-    })
+    router.push({ name: 'Forbidden' })
   }
   else {
     to.meta.authedUser = localStorageAuth().data

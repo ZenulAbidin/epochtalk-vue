@@ -46,7 +46,7 @@
         <div class="profile-user-activity">
           <div class="user-activity-stat" v-if="user.activity > -1">Activity: <span class="value">{{user.activity}}</span>
           </div>
-           <trust-display v-if="loggedIn" :username="user.username" />
+           <trust-display v-if="user.stats && (user.stats.pos || user.stats.neg)" :username="user.username" />
         </div>
 
         <div class="user-profile-position">
@@ -70,6 +70,13 @@
           <div class="stats">
             <span class="stat-text">{{ user.post_count || 0 }}</span>
             <span class="label">Posts</span>
+          </div>
+          <div class="stats" v-if="user.merit !== undefined">
+            <span class="stat-text">{{ user.merit || 0 }}</span>
+            <span class="label">Merit</span>
+          </div>
+          <div class="stats" v-if="user.merit_history_url">
+            <a :href="user.merit_history_url" target="_blank" rel="noopener" class="stat-text-sm" style="text-decoration:underline">Merit history &#8599;</a>
           </div>
           <div class="stats">
             <span class="label">Last Seen </span>

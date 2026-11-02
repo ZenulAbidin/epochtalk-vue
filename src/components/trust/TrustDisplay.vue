@@ -2,16 +2,16 @@
 <template>
   <div class="trust-profile" v-if="username">
     <div v-if="stats">
-      <span>Trust:&nbsp;&nbsp;<strong><span class="trust-score" :class="getStyle(stats.score)"><span data-balloon="Trust Score">{{stats.score}}</span> : <span data-balloon="Negative Feedback" :class="{'neg' : stats.neg !== 0 }">-{{stats.neg}}</span> / <span data-balloon="Positive Feedback">+{{stats.pos}}</span></span></strong></span>
+      <span>DefaultTrust:&nbsp;&nbsp;<strong><span class="trust-score" :class="getStyle(stats.score)"><span data-balloon="Net DefaultTrust (trusted minus distrusted)">{{stats.score}}</span> : <span data-balloon="Distrusted by DefaultTrust members" :class="{'neg' : stats.neg !== 0 }">-{{stats.neg}}</span> / <span data-balloon="Trusted by DefaultTrust members">+{{stats.pos}}</span></span></strong></span>
     </div>
     <div v-if="stats?.score < 0">
-      <span class="trust-score" :class="getStyle(stats.score)">Warning: Trade with extreme caution!</span>
+      <span class="trust-score" :class="getStyle(stats.score)">Warning: distrusted by the DefaultTrust network!</span>
     </div>
     <div>
-      <router-link class="trust-link" :to="{ name: 'Trust', params: { username: username.toLowerCase() }}">View Trust Feedback</router-link>
+      <a class="trust-link" :href="'https://bpip.org/Profile?p=' + encodeURIComponent(username)" target="_blank" rel="noopener">View full trust feedback (BPIP) &#8599;</a>
     </div>
   </div>
-  <router-link v-if="user" :to="{ name: 'Trust', params: { username: user.username.toLowerCase() }}"><span class="trust-score" :class="getStyle(stats.score)">{{stats.score}} : <span :class="negStyle">-{{stats.neg}}</span> / +{{stats.pos}}</span></router-link>
+  <a v-if="user" :href="'https://bpip.org/Profile?p=' + encodeURIComponent(user.username)" target="_blank" rel="noopener" data-balloon="DefaultTrust standing (view full feedback on BPIP)"><span class="trust-score" :class="getStyle(stats.score)">{{stats.score}} : <span :class="negStyle">-{{stats.neg}}</span> / +{{stats.pos}}</span></a>
 </template>
 
 <script>

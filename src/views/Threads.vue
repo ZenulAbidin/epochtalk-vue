@@ -245,7 +245,6 @@ import { PreferencesStore, localStoragePrefs } from '@/composables/stores/prefs'
 import { processThreads } from '@/composables/utils/boardUtils'
 import BanStore from '@/composables/stores/ban'
 import Editor from '@/components/layout/Editor.vue'
-import slugify from 'slugify'
 import SimplePagination from '@/components/layout/SimplePagination.vue'
 
 export default {
@@ -363,10 +362,7 @@ export default {
       return v.permissionUtils.hasPermission('moderators.add.allow') && v.permissionUtils.hasPermission('moderators.remove.allow')
     }
 
-    const canCreate = () => {
-      if (v.banned) return false
-      return v.threadData.data?.write_access && v.permissionUtils.hasPermission('threads.create.allow')
-    }
+    const canCreate = () => true  /* archive: draft-only */
 
     const canLock = () => {
       if (v.banned) return false
@@ -390,14 +386,13 @@ export default {
     }
 
     const createThread = thread => {
-      // slugify title
-      let slug = slugify(slugify(thread.title, { remove: /[*'"~!@)(+.:]/g, lower: true }))
-      // Handles slugs of foreign languages, these will get a random hash for their slug
-      if (slug === '') slug = Math.random().toString(36).substring(6)
-      thread.slug = slug
-      return threadsApi.create(thread)
-        .then(t => $router.push({ name: 'Posts', params: { threadSlug: t.slug } }))
-        .catch(err => console.log(err))
+      const bb = (thread && thread.body) || ''
+      const bid = (thread && thread.board_id) || ''
+      const url = 'https://bitcointalk.org/index.php?action=post;board=' + bid
+      const win = window.open(url, '_blank', 'noopener')
+      const finish = () => { $alertStore.success('Topic draft copied \u2014 paste it into the new-topic box on bitcointalk.org' + (win ? '' : ' (open ' + url + ')')) }
+      try { navigator.clipboard.writeText((thread && thread.title ? thread.title + '\n\n' : '') + bb).then(finish).catch(finish) } catch (e) { finish() }
+      return Promise.resolve({ drafted: true })
     }
     /* Internal Data */
     const $route = useRoute()
