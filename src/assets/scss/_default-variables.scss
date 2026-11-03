@@ -2,11 +2,11 @@
 $base-line-height: 1.3rem;
 
 // Primary Layout Colors User Customizable
-$base-background-color: rgb(255, 255, 255);
-$color-primary: rgb(255, 100, 0);
+$base-background-color: rgb(244, 245, 248); // soft page bg so white cards pop
+$color-primary: rgb(247, 147, 26); // Bitcoin orange
 
 // Fonts User Customizable
-$base-font-sans: "Roboto", "Helvetica Neue", Helvetica, sans-serif;
+$base-font-sans: "Inter", "Roboto", "Helvetica Neue", Helvetica, sans-serif;
 $base-font-color: rgb(34, 34, 54);
 $base-font-size: 16px;
 $secondary-font-color: rgb(153, 153, 153);
@@ -19,7 +19,7 @@ $border-color: rgb(215, 215, 215);
 
 // Header Colors User Customizable
 $header-font-color: rgb(255, 255, 255);
-$header-bg-color: rgb(66, 71, 80);
+$header-bg-color: rgb(33, 37, 43); // deeper slate
 $sub-header-color: rgb(245, 245, 245);
 
 
