@@ -12,7 +12,7 @@
             </main>
             <footer id="ts-footer">
               <div class="ts-footer-inner">
-                <strong>TalkSearch Archive</strong> &mdash; unofficial, read-only archive of public BitcoinTalk posts.
+                <strong>Bitcointalk Forum by Talksearch</strong> &mdash; unofficial, read-only archive of public BitcoinTalk posts.
                 Not affiliated with bitcointalk.org. To register, log in, post, reply or message, use
                 <a href="https://bitcointalk.org" target="_blank" rel="noopener">bitcointalk.org</a>.
               </div>

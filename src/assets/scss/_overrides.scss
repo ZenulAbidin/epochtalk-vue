@@ -77,3 +77,11 @@ table.threads-list,
 .dashboard-hero { margin-top: 1.5rem; }
 .dashboard-hero .recent-threads > .title, .recent-threads h1.title { font-size: 1rem; }
 .recent-threads .threads-recent { padding: 0.55rem 0.8rem; }
+
+
+/* post-content padding fix + home top spacing */
+.post-block { padding: 0.25rem 0.75rem 0.5rem; }
+.post-block .post-content { padding-left: 1rem; }
+.post-block .post-content .post-body { padding-left: 0; }
+.main > .category:first-of-type, .main .category:first-of-type { margin-top: 1rem; }
+main #public-content { padding-top: 0.5rem; }

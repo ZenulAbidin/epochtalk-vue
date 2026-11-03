@@ -75,7 +75,7 @@
           <h1 :class="{ 'hide-mobile': adminMode }">
             <router-link to="/" v-if="logo"><img :src="logo" id="logo" /></router-link>
             <router-link id="logo-text" to="/"> <!-- ng-bind="{{decode(title)}}" -->
-              Epochtalk Forums
+              Bitcointalk Forum by Talksearch
             </router-link>
           </h1>
           <admin-navigation v-if="adminMode && (permissionUtils.hasPermission('adminAccess') || permissionUtils.hasPermission('modAccess'))" />
