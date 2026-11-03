@@ -213,15 +213,15 @@
   </div>
 
   <div class="board-sidebar">
-    <div class="board-actions" v-if="loggedIn">
+    <div class="board-actions" v-if="loggedIn || canCreate()">
       <a v-if="canCreate()" class="button secondary" href="#" @click.prevent="showEditor = true">
         <i class="icon-epoch-add"></i>Start a New Thread
       </a>
-      <a class="button secondary" @click="watchBoard()" v-if="threadData && threadData.data && threadData.data.board">
+      <a class="button secondary" @click="watchBoard()" v-if="loggedIn && threadData && threadData.data && threadData.data.board">
         <i class="icon-epoch-watch"></i>{{ threadData.data.board.watched ? 'Unwatch ' : 'Watch ' }}This Board
       </a>
       <a class="button secondary" @click="showSetModerators = true"
-        v-if="canSetModerator()">
+        v-if="loggedIn && canSetModerator()">
         <i class="icon-epoch-watch"></i>Set Moderators
       </a>
     </div>
