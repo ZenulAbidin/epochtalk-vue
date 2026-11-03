@@ -1,11 +1,5 @@
 <template>
   <div class="main">
-    <recent-threads v-if="boardData && boardData.data" :threads="boardData.data.threads"></recent-threads>
-
-    <div v-if="!loggedIn" class="dashboard-actions">
-      <router-link :to="{ path: '/search/posts' }" class="button">Search the archive</router-link>
-      <a href="https://bitcointalk.org" class="button" target="_blank" rel="noopener">Post on bitcointalk.org &#8599;</a>
-    </div>
     <div v-if="loggedIn" class="dashboard-actions">
       <router-link :to="{ name: 'Watchlist' }" class="button">Watchlist</router-link>
       <router-link :to="{ name: 'ThreadsPostedIn' }" class="button">Threads Posted In</router-link>
@@ -82,6 +76,12 @@
 
         </div>
       </div>
+    </div>
+    <recent-threads v-if="boardData && boardData.data" :threads="boardData.data.threads"></recent-threads>
+
+    <div v-if="!loggedIn" class="dashboard-actions">
+      <router-link :to="{ path: '/search/posts' }" class="button">Search the archive</router-link>
+      <a href="https://bitcointalk.org" class="button" target="_blank" rel="noopener">Post on bitcointalk.org &#8599;</a>
     </div>
   </div>
   <login-modal :show="showLogin" @close="showLogin = false"></login-modal>

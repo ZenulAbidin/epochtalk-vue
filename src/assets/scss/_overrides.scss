@@ -52,3 +52,28 @@ table.threads-list,
 }
 .button:hover, a.button:hover, button.send:hover { filter: brightness(1.07); }
 .button:active, a.button:active, button.send:active { filter: brightness(0.97); }
+
+
+/* ===== classic-forum look: category header bars + compact rows ===== */
+.main .category { padding: 0; overflow: hidden; }
+.main .category > .title {
+  background: $header-bg-color;
+  margin: 0;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid $border-color;
+}
+.main .category > .title h1 { color: #fff; font-size: 1.02rem; font-weight: 600; margin: 0; }
+.main .category > .title svg polyline, .main .category > .title svg .icon { stroke: #fff; }
+.main .category .board {
+  border-bottom: 1px solid rgba($border-color, 0.6);
+  padding: 0.8rem 1rem;
+  margin: 0;
+}
+.main .category .board:last-child { border-bottom: none; }
+.board .info h2 { font-size: 1.03rem; margin-bottom: 0.1rem; }
+.board .description { color: $text-gray-med; font-size: 0.85rem; }
+
+/* Recent threads: a modest "latest" strip under the boards, not a hero */
+.dashboard-hero { margin-top: 1.5rem; }
+.dashboard-hero .recent-threads > .title, .recent-threads h1.title { font-size: 1rem; }
+.recent-threads .threads-recent { padding: 0.55rem 0.8rem; }
