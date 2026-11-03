@@ -3,8 +3,8 @@
     <recent-threads v-if="boardData && boardData.data" :threads="boardData.data.threads"></recent-threads>
 
     <div v-if="!loggedIn" class="dashboard-actions">
-      <a href="" class="button" @click.prevent="showRegister = true">Create an Account</a>
-      <a href="" class="button" @click.prevent="showLogin = true">Log In</a>
+      <router-link :to="{ path: '/search/posts' }" class="button">Search the archive</router-link>
+      <a href="https://bitcointalk.org" class="button" target="_blank" rel="noopener">Post on bitcointalk.org &#8599;</a>
     </div>
     <div v-if="loggedIn" class="dashboard-actions">
       <router-link :to="{ name: 'Watchlist' }" class="button">Watchlist</router-link>
