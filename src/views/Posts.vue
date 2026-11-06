@@ -1570,18 +1570,40 @@ ad-viewer {
       margin-top: 0.5rem;
     }
     .post-signature {
-      @include truncate-ellipsis;
       clear: both;
       color: $secondary-font-color;
       border-top: $border;
       border-color: lighten($border-color, 7%);
       font-size: 13px;
-      line-height: 1.2;;
+      line-height: 1.3;
       margin-top: 1rem;
-      max-height: 3.5rem;
+      max-height: 6.5rem;
+      overflow: hidden;
       padding-top: 0.5rem;
       word-wrap: break-word;
-      white-space: pre-wrap;
+      // fade the clipped bottom instead of a hard cut
+      -webkit-mask-image: linear-gradient(to bottom, #000 74%, transparent);
+      mask-image: linear-gradient(to bottom, #000 74%, transparent);
+
+      // Bitcointalk campaign signatures are ASCII-art banners built from block
+      // glyphs (▄ ▀ █) inside <table>/<span>; the stored markup has lost its
+      // colors, so in a proportional font with loose leading they collapse into
+      // a row of disconnected grey rectangles. Render them monospaced with
+      // tight leading so the blocks line up into the (monochrome) logo.
+      table {
+        border-collapse: collapse;
+        display: block;
+        max-width: 100%;
+        overflow-x: auto;
+        font-size: 10px;
+        white-space: pre;
+      }
+      table, tbody, tr, td, span, font, b, strong {
+        font-family: "DejaVu Sans Mono", "Liberation Mono", "Courier New", monospace !important;
+        line-height: 1 !important;
+        letter-spacing: 0 !important;
+      }
+      img { max-height: 46px; width: auto; vertical-align: middle; }
       a {
         color: $secondary-font-color;
         &:hover {
